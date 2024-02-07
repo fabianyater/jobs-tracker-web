@@ -1,5 +1,6 @@
 import { ReactNode, createContext, useEffect, useState } from "react";
 import {
+  actualizarEstado,
   addPostulacion,
   deletePostulacion,
   fetchPostulaciones,
@@ -11,6 +12,7 @@ type PostulacionContextType = {
   agregarPostulacion: (postulacion: PostulacionFormState) => void;
   cargarPostulaciones: () => void;
   eliminarPostulacion: (postulacionId: number) => void;
+  actualizarEstadoPostulacion: (id: number, estado: string) => void;
   isLoading: boolean;
 };
 
@@ -70,6 +72,22 @@ export const PostulacionProvider: React.FC<PostulacionProviderProps> = ({
     }
   };
 
+  const actualizarEstadoPostulacion = async (id: number, estado: string) => {
+    setIsLoading(true);
+
+    try {
+      await actualizarEstado(id, estado);
+      await cargarPostulaciones();
+    } catch (error) {
+      console.error(
+        "Hubo un error al actualizar el estado de la postulación",
+        error
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   useEffect(() => {
     cargarPostulaciones();
   }, []);
@@ -81,7 +99,8 @@ export const PostulacionProvider: React.FC<PostulacionProviderProps> = ({
         agregarPostulacion,
         cargarPostulaciones,
         eliminarPostulacion,
-        isLoading
+        actualizarEstadoPostulacion,
+        isLoading,
       }}
     >
       {children}

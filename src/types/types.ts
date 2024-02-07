@@ -1,7 +1,14 @@
+export enum EstadoPostulacion {
+  Enviada = "Enviada",
+  Vista = "Vista",
+  EnProceso = "En proceso",
+  SinRespuesta = "Sin respuesta",
+}
+
 export type Postulacion = {
   id: number;
   fechaPostulacion: string;
-  estado: string;
+  estado: EstadoPostulacion;
   url: string;
   tituloPuesto: string;
   nombreEmpresa: string;

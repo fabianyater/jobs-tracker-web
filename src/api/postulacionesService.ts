@@ -12,3 +12,7 @@ export const addPostulacion = (postulacionData: PostulacionFormState) => {
 export const deletePostulacion = (id: number) => {
   return axiosInstance.delete(`postulaciones/${id}`);
 };
+
+export const actualizarEstado = (id: number, estado: string) => {
+  return axiosInstance.put(`postulaciones/${id}`, { estado });
+};
