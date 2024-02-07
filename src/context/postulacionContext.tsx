@@ -1,18 +1,21 @@
 import { ReactNode, createContext, useEffect, useState } from "react";
+import { fetchEstados } from "../api/estadoService";
 import {
   actualizarEstado,
   addPostulacion,
   deletePostulacion,
   fetchPostulaciones,
 } from "../api/postulacionesService";
-import { Postulacion, PostulacionFormState } from "../types/types";
+import { Estados, Postulacion, PostulacionFormState } from "../types/types";
 
 type PostulacionContextType = {
   postulaciones: Postulacion[];
+  estados: Estados[];
   agregarPostulacion: (postulacion: PostulacionFormState) => void;
   cargarPostulaciones: () => void;
   eliminarPostulacion: (postulacionId: number) => void;
   actualizarEstadoPostulacion: (id: number, estado: string) => void;
+  cargarEstados: () => void;
   isLoading: boolean;
 };
 
@@ -28,6 +31,7 @@ export const PostulacionProvider: React.FC<PostulacionProviderProps> = ({
   children,
 }) => {
   const [postulaciones, setPostulaciones] = useState<Postulacion[]>([]);
+  const [estados, setEstados] = useState<Estados[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
   const cargarPostulaciones = async () => {
@@ -41,6 +45,22 @@ export const PostulacionProvider: React.FC<PostulacionProviderProps> = ({
       }
     } catch (error) {
       console.error("Hubo un error al obtener las postulaciones", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const cargarEstados = async () => {
+    setIsLoading(true);
+
+    try {
+      const response = await fetchEstados();
+
+      if (response.data && response.data.data) {
+        setEstados(response.data.data);
+      }
+    } catch (error) {
+      console.error("Hubo un error al obtener los estados", error);
     } finally {
       setIsLoading(false);
     }
@@ -90,16 +110,19 @@ export const PostulacionProvider: React.FC<PostulacionProviderProps> = ({
 
   useEffect(() => {
     cargarPostulaciones();
+    cargarEstados();
   }, []);
 
   return (
     <PostulacionContext.Provider
       value={{
         postulaciones,
+        estados,
         agregarPostulacion,
         cargarPostulaciones,
         eliminarPostulacion,
         actualizarEstadoPostulacion,
+        cargarEstados,
         isLoading,
       }}
     >

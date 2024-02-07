@@ -20,3 +20,8 @@ export type PostulacionFormState = {
   url: string;
   tituloPuesto: string;
 };
+
+export type Estados = {
+  id: number;
+  estado: string;
+}

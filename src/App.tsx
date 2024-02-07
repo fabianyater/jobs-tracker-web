@@ -1,11 +1,11 @@
 import styles from "./App.module.css";
 import { ApplyForm } from "./components/ApplyForm";
 import { usePostulaciones } from "./hooks/usePostulacion";
-import { EstadoPostulacion } from "./types/types";
 
 function App() {
   const {
     postulaciones,
+    estados,
     eliminarPostulacion,
     actualizarEstadoPostulacion,
     isLoading,
@@ -49,9 +49,9 @@ function App() {
                           )
                         }
                       >
-                        {Object.values(EstadoPostulacion).map((estado) => (
-                          <option key={estado} value={estado}>
-                            {estado}
+                        {Object.values(estados).map((estado) => (
+                          <option key={estado.id} value={estado.estado}>
+                            {estado.estado}
                           </option>
                         ))}
                       </select>
