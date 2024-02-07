@@ -10,7 +10,7 @@ const ApplyForm = () => {
     url: "",
     tituloPuesto: "",
   });
-  const { agregarPostulacion } = usePostulaciones();
+  const { agregarPostulacion, isLoading } = usePostulaciones();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -62,7 +62,7 @@ const ApplyForm = () => {
         required
       />
       
-      <button type="submit">Agregar Postulación</button>
+      <button type="submit">{isLoading ? 'Creando' : 'Agregar Postulación'}</button>
     </form>
   );
 };

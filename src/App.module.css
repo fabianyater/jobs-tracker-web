@@ -23,6 +23,8 @@
       padding: 20px;
       margin: 10px 0;
       transition: box-shadow 0.3s ease;
+      max-width: 300px;
+      width: 100%;
 
       &:hover {
         box-shadow: 0 2px 5px rgba(255, 255, 255, 1);

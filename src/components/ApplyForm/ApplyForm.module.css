@@ -17,6 +17,7 @@
     text-transform: uppercase;
     cursor: pointer;
     transition: all ease-in-out 0.3s;
+    font-weight: bold;
 
     &:hover {
       transform: scale(1.009);
