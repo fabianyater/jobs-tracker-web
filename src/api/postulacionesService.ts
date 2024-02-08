@@ -14,5 +14,5 @@ export const deletePostulacion = (id: number) => {
 };
 
 export const actualizarEstado = (id: number, estado: string) => {
-  return axiosInstance.put(`postulaciones/${id}`, { estado });
+  return axiosInstance.post(`postulaciones/${id}`, { estado });
 };
