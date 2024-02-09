@@ -9,14 +9,14 @@ import {
 } from "../api/postulacionesService";
 import {
   ComentarioFormState,
-  Estados,
+  Estado,
   Postulacion,
   PostulacionFormState,
 } from "../types/types";
 
 type PostulacionContextType = {
   postulaciones: Postulacion[];
-  estados: Estados[];
+  estados: Estado[];
   agregarPostulacion: (postulacion: PostulacionFormState) => void;
   agregarComentario: (comentario: ComentarioFormState) => void;
   cargarPostulaciones: () => void;
@@ -38,7 +38,7 @@ export const PostulacionProvider: React.FC<PostulacionProviderProps> = ({
   children,
 }) => {
   const [postulaciones, setPostulaciones] = useState<Postulacion[]>([]);
-  const [estados, setEstados] = useState<Estados[]>([]);
+  const [estados, setEstados] = useState<Estado[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
   const cargarPostulaciones = async () => {

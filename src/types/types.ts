@@ -30,7 +30,7 @@ export type ComentarioFormState = {
   comentario: string;
 }
 
-export type Estados = {
+export type Estado = {
   id: number;
   estado: string;
 }
