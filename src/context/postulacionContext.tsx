@@ -1,4 +1,5 @@
 import { ReactNode, createContext, useEffect, useState } from "react";
+import { addComentario } from "../api/comentariosServices";
 import { fetchEstados } from "../api/estadoService";
 import {
   actualizarEstado,
@@ -6,12 +7,18 @@ import {
   deletePostulacion,
   fetchPostulaciones,
 } from "../api/postulacionesService";
-import { Estados, Postulacion, PostulacionFormState } from "../types/types";
+import {
+  ComentarioFormState,
+  Estados,
+  Postulacion,
+  PostulacionFormState,
+} from "../types/types";
 
 type PostulacionContextType = {
   postulaciones: Postulacion[];
   estados: Estados[];
   agregarPostulacion: (postulacion: PostulacionFormState) => void;
+  agregarComentario: (comentario: ComentarioFormState) => void;
   cargarPostulaciones: () => void;
   eliminarPostulacion: (postulacionId: number) => void;
   actualizarEstadoPostulacion: (id: number, estado: string) => void;
@@ -79,6 +86,18 @@ export const PostulacionProvider: React.FC<PostulacionProviderProps> = ({
     }
   };
 
+  const agregarComentario = async (comentarioData: ComentarioFormState) => {
+    setIsLoading(true);
+
+    try {
+      await addComentario(comentarioData);
+    } catch (error) {
+      console.error("Hubo un error al agregar la postulación", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const eliminarPostulacion = async (postulacionId: number) => {
     setIsLoading(true);
 
@@ -122,6 +141,7 @@ export const PostulacionProvider: React.FC<PostulacionProviderProps> = ({
         cargarPostulaciones,
         eliminarPostulacion,
         actualizarEstadoPostulacion,
+        agregarComentario,
         cargarEstados,
         isLoading,
       }}

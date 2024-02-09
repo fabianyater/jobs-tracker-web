@@ -1,23 +1,10 @@
 import styles from "./App.module.css";
 import { ApplyForm } from "./components/ApplyForm";
+import { PostulacionItem } from "./components/PostulacionItem";
 import { usePostulaciones } from "./hooks/usePostulacion";
 
 function App() {
-  const {
-    postulaciones,
-    estados,
-    eliminarPostulacion,
-    actualizarEstadoPostulacion,
-    isLoading,
-  } = usePostulaciones();
-
-  const handleDeletePostulacion = (id: number) => {
-    if (confirm("¿Está seguro que quiere eliminar esta postulación?")) {
-      return eliminarPostulacion(id);
-    }
-
-    return null;
-  };
+  const { postulaciones, isLoading } = usePostulaciones();
 
   return (
     <div className={styles.container}>
@@ -32,50 +19,8 @@ function App() {
             <h1>Cargando...</h1>
           ) : (
             <ul className={styles.list}>
-              {postulaciones.map((postulacion, index) => (
-                <li key={index} className={styles.item}>
-                  <div className={styles.postulacionHeader}>
-                    {postulacion.tituloPuesto} en {postulacion.nombreEmpresa}
-                  </div>
-                  <div className={styles.postulacionBody}>
-                    <p>
-                      Estado:
-                      <select
-                        value={postulacion.estado}
-                        onChange={(e) =>
-                          actualizarEstadoPostulacion(
-                            postulacion.id,
-                            e.target.value
-                          )
-                        }
-                      >
-                        {Object.values(estados).map((estado) => (
-                          <option key={estado.id} value={estado.estado}>
-                            {estado.estado}
-                          </option>
-                        ))}
-                      </select>
-                    </p>
-                    <p>Fecha de postulación: {postulacion.fechaPostulacion}</p>
-                    {postulacion.notas && <p>Notas: {postulacion.notas}</p>}
-                  </div>
-                  <div className={styles.footer}>
-                    <a
-                      href={postulacion.url}
-                      className={styles.postulacionLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      Ver Postulación
-                    </a>
-                    <button
-                      className={styles.delete}
-                      onClick={() => handleDeletePostulacion(postulacion.id)}
-                    >
-                      <img src="src/assets/delete.svg" alt="Delete icon" />
-                    </button>
-                  </div>
-                </li>
+              {postulaciones.map((postulacion) => (
+                <PostulacionItem postulacion={postulacion} />
               ))}
             </ul>
           )}

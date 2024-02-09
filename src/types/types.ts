@@ -5,6 +5,10 @@ export enum EstadoPostulacion {
   SinRespuesta = "Sin respuesta",
 }
 
+export type Comentario = {
+  comentario: string;
+}
+
 export type Postulacion = {
   id: number;
   fechaPostulacion: string;
@@ -12,7 +16,7 @@ export type Postulacion = {
   url: string;
   tituloPuesto: string;
   nombreEmpresa: string;
-  notas: string;
+  comentarios: Comentario[];
 };
 
 export type PostulacionFormState = {
@@ -20,6 +24,11 @@ export type PostulacionFormState = {
   url: string;
   tituloPuesto: string;
 };
+
+export type ComentarioFormState = {
+  postulacionId: number;
+  comentario: string;
+}
 
 export type Estados = {
   id: number;
