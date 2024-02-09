@@ -91,6 +91,7 @@ export const PostulacionProvider: React.FC<PostulacionProviderProps> = ({
 
     try {
       await addComentario(comentarioData);
+      await cargarPostulaciones();
     } catch (error) {
       console.error("Hubo un error al agregar la postulación", error);
     } finally {
