@@ -1,14 +1,12 @@
-import styles from './Input.module.css'
-
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  text: string
+  text: string;
 }
 
 const Input: React.FC<InputProps> = ({ text, ...props }) => {
   return (
-    <label className={styles.label}>
+    <label>
       {text}
-      <input className={styles.input} {...props} />
+      <input {...props} />
     </label>
   );
 };

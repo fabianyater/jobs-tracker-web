@@ -34,4 +34,5 @@ export type ComentarioFormState = {
 export type Estado = {
   id: number;
   estado: string;
+  color: string;
 }
