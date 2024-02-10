@@ -2,7 +2,6 @@ import { useState } from "react";
 import { usePostulaciones } from "../../hooks/usePostulacion";
 import { PostulacionFormState } from "../../types/types";
 import { Input } from "../Input";
-import styles from "./ApplyForm.module.css";
 
 const ApplyForm = () => {
   const [formState, setFormState] = useState<PostulacionFormState>({
@@ -31,7 +30,7 @@ const ApplyForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className={styles.form}>
+    <form onSubmit={handleSubmit}>
       <Input
         text="Nombre de la empresa"
         type="text"
@@ -61,8 +60,10 @@ const ApplyForm = () => {
         placeholder="https://www.pragma.co/es/carrera/vacantes/practicante-de-desarrollo-de-software"
         required
       />
-      
-      <button type="submit">{isLoading ? 'Creando' : 'Agregar Postulación'}</button>
+
+      <button type="submit">
+        {isLoading ? "Creando" : "Agregar Postulación"}
+      </button>
     </form>
   );
 };
