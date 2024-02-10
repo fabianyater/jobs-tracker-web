@@ -11,11 +11,12 @@ export type Comentario = {
 
 export type Postulacion = {
   id: number;
-  fechaPostulacion: string;
-  estado: EstadoPostulacion;
-  url: string;
-  tituloPuesto: string;
   nombreEmpresa: string;
+  tituloPuesto: string;
+  url: string;
+  estado: EstadoPostulacion;
+  fechaPostulacion: string;
+  fechaActualizacion: string;
   comentarios: Comentario[];
 };
 
