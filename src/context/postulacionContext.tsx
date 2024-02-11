@@ -16,6 +16,7 @@ import {
 
 type PostulacionContextType = {
   postulaciones: Postulacion[];
+  postulacionesFiltradas: Postulacion[];
   estados: Estado[];
   agregarPostulacion: (postulacion: PostulacionFormState) => void;
   agregarComentario: (comentario: ComentarioFormState) => void;
@@ -26,6 +27,11 @@ type PostulacionContextType = {
   isLoading: boolean;
   isFormVisible: boolean;
   toggleFormVisible: () => void;
+  totalPostulaciones: number;
+  estadosSeleccionados: string[];
+  handleCheckboxChange: (estado: string) => void;
+  filtrarPostulacionesPorEstado: () => void;
+  clearFilter: () => void;
 };
 
 export const PostulacionContext = createContext<
@@ -40,9 +46,28 @@ export const PostulacionProvider: React.FC<PostulacionProviderProps> = ({
   children,
 }) => {
   const [postulaciones, setPostulaciones] = useState<Postulacion[]>([]);
+  const [postulacionesFiltradas, setPostulacionesFiltradas] = useState<
+    Postulacion[]
+  >([]);
   const [estados, setEstados] = useState<Estado[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isFormVisible, setIsFormVisible] = useState<boolean>(false);
+  const [totalPostulaciones, setTotalPostulaciones] = useState<number>(0);
+  const [estadosSeleccionados, setEstadosSeleccionados] = useState<string[]>(
+    []
+  );
+
+  const handleCheckboxChange = (estado: string) => {
+    setEstadosSeleccionados((prevSelecciones) =>
+      prevSelecciones.includes(estado)
+        ? prevSelecciones.filter((nombre) => nombre !== estado)
+        : [...prevSelecciones, estado]
+    );
+  };
+
+  const clearFilter = () => {
+    setEstadosSeleccionados([]);
+  }
 
   const toggleFormVisible = () => {
     setIsFormVisible(!isFormVisible);
@@ -135,15 +160,47 @@ export const PostulacionProvider: React.FC<PostulacionProviderProps> = ({
     }
   };
 
+  const filtrarPostulacionesPorEstado = () => {
+    setIsLoading(true);
+
+    try {
+      if (estadosSeleccionados.length === 0) {
+        setPostulacionesFiltradas(postulaciones);
+      } else {
+        const filtradas = postulaciones.filter((postulacion) =>
+          estadosSeleccionados.includes(postulacion.estado)
+        );
+
+        setPostulacionesFiltradas(filtradas);
+      }
+    } catch (error) {
+      console.error(
+        "Hubo un error al filtrar las postulaciones por estado",
+        error
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   useEffect(() => {
     cargarPostulaciones();
     cargarEstados();
   }, []);
 
+  useEffect(() => {
+    filtrarPostulacionesPorEstado();
+  }, [postulaciones]);
+
+  useEffect(() => {
+    setTotalPostulaciones(postulacionesFiltradas.length);
+  }, [postulacionesFiltradas.length]);
+
   return (
     <PostulacionContext.Provider
       value={{
         postulaciones,
+        postulacionesFiltradas,
         estados,
         agregarPostulacion,
         cargarPostulaciones,
@@ -154,6 +211,11 @@ export const PostulacionProvider: React.FC<PostulacionProviderProps> = ({
         isLoading,
         isFormVisible,
         toggleFormVisible,
+        totalPostulaciones,
+        estadosSeleccionados,
+        handleCheckboxChange,
+        filtrarPostulacionesPorEstado,
+        clearFilter
       }}
     >
       {children}
