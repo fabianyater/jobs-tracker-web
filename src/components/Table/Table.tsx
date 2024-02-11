@@ -4,40 +4,53 @@ import {
   TableCell,
   TableHead,
   TableHeadCell,
-  TableRow
+  TableRow,
 } from "flowbite-react";
 import React from "react";
 import { usePostulaciones } from "../../hooks/usePostulacion";
+import { Postulacion } from "../../types/types";
+import { formatearFecha } from "../../utils";
 import { Select } from "../Select";
 import { TableItem } from "../TableItem";
 
 const CustomTable: React.FC = () => {
   const { postulacionesFiltradas, estados, actualizarEstadoPostulacion } =
     usePostulaciones();
-  
-    return (
+
+  const handleOnClick = (postulacion: Postulacion) => {
+    //TODO: Datos para ir al detalle de la postulación
+    console.log(postulacionesFiltradas.find((f) => f.id === postulacion.id));
+  };
+
+  return (
     <div className="overflow-x-auto dark h-[720px]">
       <Table hoverable striped>
         <TableHead>
-          <TableHeadCell>Puesto</TableHeadCell>
-          <TableHeadCell>Empresa</TableHeadCell>
-          <TableHeadCell>Fecha de actualización</TableHeadCell>
-          <TableHeadCell>Estado</TableHeadCell>
-          <TableHeadCell>Ver más</TableHeadCell>
+          <TableHeadCell className="text-white">Puesto</TableHeadCell>
+          <TableHeadCell className="text-white">Empresa</TableHeadCell>
+          <TableHeadCell className="text-white">
+            Fecha de actualización
+          </TableHeadCell>
+          <TableHeadCell className="text-white">Estado</TableHeadCell>
+          <TableHeadCell className="text-white">Ver más</TableHeadCell>
         </TableHead>
         <TableBody>
           {postulacionesFiltradas.length > 0 ? (
             postulacionesFiltradas.map((postulacion) => (
               <TableRow
                 key={postulacion.id}
-                className="bg-white dark:border-gray-700 dark:bg-gray-800"
+                className="bg-white dark:border-gray-700 dark:bg-gray-800 cursor-pointer"
+                onClick={() => handleOnClick(postulacion)}
               >
                 <TableItem>{postulacion.tituloPuesto}</TableItem>
                 <TableItem>{postulacion.nombreEmpresa}</TableItem>
-                <TableItem>{postulacion.fechaActualizacion}</TableItem>
+                <TableItem>
+                  {formatearFecha(postulacion.fechaActualizacion)}
+                </TableItem>
                 <TableItem>
                   <Select
                     opciones={estados}
+                    title="Seleccionar estado"
                     value={postulacion.estado}
                     onChange={(e) =>
                       actualizarEstadoPostulacion(postulacion.id, e)
