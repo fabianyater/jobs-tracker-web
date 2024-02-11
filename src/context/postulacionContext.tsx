@@ -24,6 +24,8 @@ type PostulacionContextType = {
   actualizarEstadoPostulacion: (id: number, estado: string) => void;
   cargarEstados: () => void;
   isLoading: boolean;
+  isFormVisible: boolean;
+  toggleFormVisible: () => void;
 };
 
 export const PostulacionContext = createContext<
@@ -39,7 +41,12 @@ export const PostulacionProvider: React.FC<PostulacionProviderProps> = ({
 }) => {
   const [postulaciones, setPostulaciones] = useState<Postulacion[]>([]);
   const [estados, setEstados] = useState<Estado[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isFormVisible, setIsFormVisible] = useState<boolean>(false);
+
+  const toggleFormVisible = () => {
+    setIsFormVisible(!isFormVisible);
+  };
 
   const cargarPostulaciones = async () => {
     setIsLoading(true);
@@ -145,6 +152,8 @@ export const PostulacionProvider: React.FC<PostulacionProviderProps> = ({
         agregarComentario,
         cargarEstados,
         isLoading,
+        isFormVisible,
+        toggleFormVisible,
       }}
     >
       {children}

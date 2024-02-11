@@ -1,3 +1,4 @@
+import { Select } from "flowbite-react";
 import React from "react";
 import { Estado } from "../../types/types";
 
@@ -13,13 +14,17 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
   opciones,
 }) => {
   return (
-    <select value={value} onChange={(e) => onChange(e.target.value)}>
+    <Select value={value} onChange={(e) => onChange(e.target.value)}>
       {opciones.map((opcion) => (
-        <option key={opcion.id} value={opcion.estado}>
+        <option
+          key={opcion.id}
+          style={{ color: opcion.color }}
+          value={opcion.estado}
+        >
           {opcion.estado}
         </option>
       ))}
-    </select>
+    </Select>
   );
 };
 
