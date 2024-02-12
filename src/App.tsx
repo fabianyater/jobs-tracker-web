@@ -6,7 +6,7 @@ import { Table } from "./components/Table";
 import { usePostulacionContext } from "./hooks/usePostulacionContext";
 
 function App() {
-  const { isFormVisible, toggleFormVisible, totalPostulaciones, estados } =
+  const { isFormVisible, toggleFormVisible, totalItems, estados } =
     usePostulacionContext();
 
   return (
@@ -40,7 +40,7 @@ function App() {
             </h2>
             <span className="bg-blue-100 text-blue-800 text-2xl font-semibold me-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ms-2">
               {" "}
-              {totalPostulaciones}
+              {totalItems}
             </span>
           </div>
           <div className="flex gap-4">

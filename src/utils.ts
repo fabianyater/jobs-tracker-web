@@ -1,13 +1,35 @@
 export function formatearFecha(fechaOriginal: string) {
   const fecha = new Date(fechaOriginal);
 
-  // Suponiendo que quieres un formato como "DD/MM/YYYY HH:mm:ss"
-  const dia = fecha.getDate().toString().padStart(2, "0");
-  const mes = (fecha.getMonth() + 1).toString().padStart(2, "0"); // Los meses comienzan desde 0
-  const año = fecha.getFullYear();
-  const horas = fecha.getHours().toString().padStart(2, "0");
-  const minutos = fecha.getMinutes().toString().padStart(2, "0");
-  const segundos = fecha.getSeconds().toString().padStart(2, "0");
+  // Obtenemos el día
+  const dia = fecha.getDate();
 
-  return `${dia}/${mes}/${año} ${horas}:${minutos}:${segundos}`;
+  // Convertimos el número del mes a su nombre correspondiente
+  const meses = [
+    "Enero",
+    "Febrero",
+    "Marzo",
+    "Abril",
+    "Mayo",
+    "Junio",
+    "Julio",
+    "Agosto",
+    "Septiembre",
+    "Octubre",
+    "Noviembre",
+    "Diciembre",
+  ];
+  const mes = meses[fecha.getMonth()];
+
+  // Convertimos de formato 24 a 12 horas, determinamos AM o PM y si es "a la" o "a las"
+  let horas = fecha.getHours();
+  const ampm = horas >= 12 ? "pm" : "am";
+  horas = horas % 12;
+  horas = horas ? horas : 12; // El 0 se convierte en 12
+  const minutos = fecha.getMinutes().toString().padStart(2, "0");
+
+  // Determinar si se usa "a la" o "a las"
+  const preposicion = horas === 1 ? "a la" : "a las";
+
+  return `${dia} de ${mes} ${preposicion} ${horas}:${minutos} ${ampm}`;
 }

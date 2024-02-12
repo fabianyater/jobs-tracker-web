@@ -33,11 +33,17 @@ type PostulacionContextType = {
   isLoading: boolean;
   isFormVisible: boolean;
   toggleFormVisible: () => void;
-  totalPostulaciones: number;
   estadosSeleccionados: string[];
   handleCheckboxChange: (estado: string) => void;
   filtrarPostulacionesPorEstado: () => void;
   clearFilter: () => void;
+  currentPage: number;
+  itemsPerPage: number;
+  totalItems: number;
+  nextPage: () => void;
+  prevPage: () => void;
+  handlePageChange: (page: number) => void;
+  totalPages: number;
 };
 
 export const PostulacionContext = createContext<
@@ -58,10 +64,25 @@ export const PostulacionProvider: React.FC<PostulacionProviderProps> = ({
   const [estados, setEstados] = useState<Estado[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isFormVisible, setIsFormVisible] = useState<boolean>(false);
-  const [totalPostulaciones, setTotalPostulaciones] = useState<number>(0);
   const [estadosSeleccionados, setEstadosSeleccionados] = useState<string[]>(
     []
   );
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [itemsPerPage, setItemsPerPage] = useState<number>(8);
+  const [totalItems, setTotalItems] = useState<number>(0);
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+  const nextPage = () => {
+    setCurrentPage((prev) => (prev < totalPages ? prev + 1 : prev));
+  };
+
+  const prevPage = () => {
+    setCurrentPage((prev) => (prev > 1 ? prev - 1 : prev));
+  };
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
 
   const handleCheckboxChange = (estado: string) => {
     setEstadosSeleccionados((prevSelecciones) =>
@@ -83,10 +104,15 @@ export const PostulacionProvider: React.FC<PostulacionProviderProps> = ({
     setIsLoading(true);
 
     try {
-      const response = await fetchPostulaciones();
+      console.log(currentPage);
+      
+      const response = await fetchPostulaciones(currentPage, itemsPerPage);
 
       if (response.data && response.data.data) {
-        setPostulaciones(response.data.data);
+        setPostulaciones(response.data.data.postulaciones);
+        setCurrentPage(response.data.data.currentPage);
+        setItemsPerPage(response.data.data.itemsPerPage);
+        setTotalItems(response.data.data.totalItems);
       }
     } catch (error) {
       console.error("Hubo un error al obtener las postulaciones", error);
@@ -188,8 +214,9 @@ export const PostulacionProvider: React.FC<PostulacionProviderProps> = ({
   }, [postulaciones]);
 
   useEffect(() => {
-    setTotalPostulaciones(postulacionesFiltradas.length);
-  }, [postulacionesFiltradas.length]);
+    cargarPostulaciones();
+  }, [currentPage]); // Dependencia: currentPage
+  
 
   return (
     <PostulacionContext.Provider
@@ -206,11 +233,17 @@ export const PostulacionProvider: React.FC<PostulacionProviderProps> = ({
         isLoading,
         isFormVisible,
         toggleFormVisible,
-        totalPostulaciones,
         estadosSeleccionados,
         handleCheckboxChange,
         filtrarPostulacionesPorEstado,
         clearFilter,
+        currentPage,
+        itemsPerPage,
+        totalItems,
+        handlePageChange,
+        totalPages,
+        prevPage,
+        nextPage,
       }}
     >
       {children}

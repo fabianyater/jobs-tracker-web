@@ -12,10 +12,21 @@ import { Postulacion } from "../../types/types";
 import { formatearFecha } from "../../utils";
 import { Select } from "../Select";
 import { TableItem } from "../TableItem";
+import { TablePagination } from "../TablePagination";
 
 const CustomTable: React.FC = () => {
-  const { postulacionesFiltradas, estados, actualizarEstadoPostulacion } =
-    usePostulacionContext();
+  const {
+    postulacionesFiltradas,
+    estados,
+    actualizarEstadoPostulacion,
+    totalItems,
+    itemsPerPage,
+    currentPage,
+    nextPage,
+    prevPage,
+    totalPages,
+    handlePageChange,
+  } = usePostulacionContext();
 
   const handleOnClick = (postulacion: Postulacion) => {
     //TODO: Datos para ir al detalle de la postulación
@@ -32,7 +43,7 @@ const CustomTable: React.FC = () => {
             Fecha de actualización
           </TableHeadCell>
           <TableHeadCell className="text-white">Estado</TableHeadCell>
-          <TableHeadCell className="text-white">Ver más</TableHeadCell>
+          <TableHeadCell className="text-white">Enlace</TableHeadCell>
         </TableHead>
         <TableBody>
           {postulacionesFiltradas.length > 0 ? (
@@ -58,21 +69,14 @@ const CustomTable: React.FC = () => {
                   />
                 </TableItem>
                 <TableItem>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="lucide lucide-eye cursor-pointer"
+                  <a
+                    href={postulacion.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-medium text-blue-600 dark:text-white hover:underline"
                   >
-                    <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
-                    <circle cx="12" cy="12" r="3" />
-                  </svg>
+                    Ver vacante
+                  </a>
                 </TableItem>
               </TableRow>
             ))
@@ -85,6 +89,15 @@ const CustomTable: React.FC = () => {
           )}
         </TableBody>
       </Table>
+      <TablePagination
+        itemsPerPage={itemsPerPage}
+        totalItems={totalItems}
+        currentPage={currentPage}
+        nextPage={nextPage}
+        prevPage={prevPage}
+        totalPages={totalPages}
+        handlePage={handlePageChange}
+      />
     </div>
   );
 };
