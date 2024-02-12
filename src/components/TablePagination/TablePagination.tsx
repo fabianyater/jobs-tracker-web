@@ -23,7 +23,7 @@ export const TestPagination = ({
   }
   return (
     <nav
-      className="flex items-center flex-column flex-wrap md:flex-row justify-between pt-4 gap-y-2"
+      className="flex items-center flex-column flex-wrap md:flex-row justify-between pt-4 gap-y-2 dark"
       aria-label="Table navigation"
     >
       <span className="text-sm font-normal text-gray-500 dark:text-gray-400">
