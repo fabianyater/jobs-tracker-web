@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { Comment } from "./components/Comment";
 import { usePostulacionContext } from "./hooks/usePostulacionContext";
-import { obtenerNombreSitio } from "./utils";
+import { formatearFecha, obtenerNombreSitio } from "./utils";
 
 function PostulacionDetalle() {
   const [isDescriptionExpanded, setIsDescriptionExpanded] =
@@ -172,7 +172,7 @@ function PostulacionDetalle() {
           <span className="text-gray-400 text-md mb-8">Actualizaciones</span>
           <ul>
             <li className="text-white">
-              Solicitud vista el {postulacion.fechaActualizacion}
+              Solicitud vista el {formatearFecha(postulacion.fechaActualizacion)}
             </li>
           </ul>
         </div>
