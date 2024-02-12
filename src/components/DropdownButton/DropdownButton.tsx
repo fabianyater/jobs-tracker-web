@@ -45,7 +45,7 @@ const DropdownButton: React.FC<DropdownButtonProps> = ({ estados }) => {
 
   return (
     <div className="relative inline-block text-left" ref={dropdownRef}>
-      <Button className="my-6 flex gap-2" onClick={toggleDropdown}>
+      <Button color="blue" className="my-6 flex gap-2" onClick={toggleDropdown}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"
@@ -88,6 +88,7 @@ const DropdownButton: React.FC<DropdownButtonProps> = ({ estados }) => {
           ))}
           <div className="flex gap-x-2">
             <Button
+              color="failure"
               title="Limpiar filtro"
               onClick={() => clearFilter()}
               className="mt-2"
@@ -112,6 +113,7 @@ const DropdownButton: React.FC<DropdownButtonProps> = ({ estados }) => {
               </svg>
             </Button>
             <Button
+              color="blue"
               title="Filtrar por estados"
               onClick={() => filtrarPostulacionesPorEstado()}
               className="w-full mt-2"

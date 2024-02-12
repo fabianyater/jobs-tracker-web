@@ -26,7 +26,7 @@ const CustomModal: React.FC<ModalProps> = ({
         </Modal.Body>
         {showFooter && (
           <Modal.Footer>
-            <Button onClick={toggleFormVisible}>I accept</Button>
+            <Button color="blue" onClick={toggleFormVisible}>I accept</Button>
             <Button color="gray" onClick={toggleFormVisible}>
               Decline
             </Button>

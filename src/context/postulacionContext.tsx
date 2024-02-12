@@ -1,4 +1,10 @@
-import { ReactNode, createContext, useEffect, useState } from "react";
+import {
+  ReactNode,
+  createContext,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import { addComentario } from "../api/comentariosServices";
 import { fetchEstados } from "../api/estadoService";
 import {
@@ -67,7 +73,7 @@ export const PostulacionProvider: React.FC<PostulacionProviderProps> = ({
 
   const clearFilter = () => {
     setEstadosSeleccionados([]);
-  }
+  };
 
   const toggleFormVisible = () => {
     setIsFormVisible(!isFormVisible);
@@ -160,28 +166,17 @@ export const PostulacionProvider: React.FC<PostulacionProviderProps> = ({
     }
   };
 
-  const filtrarPostulacionesPorEstado = () => {
-    setIsLoading(true);
-
-    try {
-      if (estadosSeleccionados.length === 0) {
-        setPostulacionesFiltradas(postulaciones);
-      } else {
-        const filtradas = postulaciones.filter((postulacion) =>
-          estadosSeleccionados.includes(postulacion.estado)
-        );
-
-        setPostulacionesFiltradas(filtradas);
-      }
-    } catch (error) {
-      console.error(
-        "Hubo un error al filtrar las postulaciones por estado",
-        error
+  const filtrarPostulacionesPorEstado = useCallback(() => {
+    if (estadosSeleccionados.length === 0) {
+      return setPostulacionesFiltradas(postulaciones);
+    } else {
+      const filtradas = postulaciones.filter((postulacion) =>
+        estadosSeleccionados.includes(postulacion.estado)
       );
-    } finally {
-      setIsLoading(false);
+
+      return setPostulacionesFiltradas(filtradas);
     }
-  };
+  }, [estadosSeleccionados, postulaciones]);
 
   useEffect(() => {
     cargarPostulaciones();
@@ -215,7 +210,7 @@ export const PostulacionProvider: React.FC<PostulacionProviderProps> = ({
         estadosSeleccionados,
         handleCheckboxChange,
         filtrarPostulacionesPorEstado,
-        clearFilter
+        clearFilter,
       }}
     >
       {children}

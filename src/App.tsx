@@ -45,7 +45,7 @@ function App() {
           </div>
           <div className="flex gap-4">
             <DropdownButton estados={estados} />
-            <Button className="my-6" onClick={toggleFormVisible}>
+            <Button color="blue" className="my-6" onClick={toggleFormVisible}>
               Agregar postulación
             </Button>
           </div>

@@ -81,7 +81,7 @@ const ApplyForm: React.FC = () => {
         />
       </div>
 
-      <Button isProcessing={isLoading} type="submit">
+      <Button color="blue" isProcessing={isLoading} type="submit">
         Agregar
       </Button>
     </form>
