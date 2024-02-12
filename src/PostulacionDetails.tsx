@@ -22,8 +22,6 @@ function PostulacionDetalle() {
   }
 
   if (postulacion === undefined) {
-    console.log(postulacion);
-
     return <Navigate to="/not-found" replace />;
   }
 
@@ -182,7 +180,7 @@ function PostulacionDetalle() {
       <section className="sm:w-1/2 w-full mt-8 flex sm:flex-row flex-col justify-between gap-5">
         <div className="sm:w-full">
           <span className="text-gray-400 text-md mb-8">Comentarios</span>
-          <ul>
+          <ul className="max-w-md space-y-1 text-white list-disc list-inside">
             {postulacion.comentarios.length > 0 ? (
               postulacion.comentarios.map(({ comentario }, index) => (
                 <li key={index}>{comentario}</li>
@@ -191,7 +189,7 @@ function PostulacionDetalle() {
               <span className="text-2xl text-blue-400">No hay comentarios</span>
             )}
           </ul>
-          <Comment />
+          <Comment postulacionId={postulacion.id} />
         </div>
       </section>
     </div>

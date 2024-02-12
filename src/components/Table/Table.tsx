@@ -31,9 +31,7 @@ const CustomTable: React.FC = () => {
   const navigate = useNavigate();
 
   const handleOnClick = (postulacion: Postulacion) => {
-    //TODO: Datos para ir al detalle de la postulación
     navigate(`/postulacion/${postulacion.id}`);
-    console.log(postulacionesFiltradas.find((f) => f.id === postulacion.id));
   };
 
   return (
