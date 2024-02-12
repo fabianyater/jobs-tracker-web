@@ -4,10 +4,16 @@ import { DropdownButton } from "./components/DropdownButton";
 import CustomModal from "./components/Modal/CustomModal";
 import { Table } from "./components/Table";
 import { usePostulacionContext } from "./hooks/usePostulacionContext";
+import { exportToCsv } from "./utils";
 
 function App() {
-  const { isFormVisible, toggleFormVisible, totalItems, estados } =
-    usePostulacionContext();
+  const {
+    isFormVisible,
+    toggleFormVisible,
+    postulaciones,
+    totalItems,
+    estados,
+  } = usePostulacionContext();
 
   return (
     <div className="container mx-auto p-4">
@@ -45,7 +51,12 @@ function App() {
           </div>
           <div className="flex gap-4">
             <DropdownButton estados={estados} />
-            <Button color="blue" className="my-6" onClick={toggleFormVisible}>
+            <Button
+              title="Copiar al portapapeles"
+              color="blue"
+              className="my-6 flex items-center justify-center"
+              onClick={() => exportToCsv(postulaciones)}
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -56,12 +67,35 @@ function App() {
                 strokeWidth="2"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                className="lucide lucide-plus mr-2"
+                className="lucide lucide-download sm:mr-2"
+              >
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="7 10 12 15 17 10" />
+                <line x1="12" x2="12" y1="15" y2="3" />
+              </svg>
+              <span className="hidden sm:inline">Descargar</span>
+            </Button>
+            <Button
+              color="blue"
+              className="my-6 flex items-center justify-center"
+              onClick={toggleFormVisible}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="lucide lucide-plus  sm:mr-2"
               >
                 <path d="M5 12h14" />
                 <path d="M12 5v14" />
               </svg>
-              Agregar postulación
+              <span className="hidden sm:inline">Agregar postulación</span>
             </Button>
           </div>
         </div>

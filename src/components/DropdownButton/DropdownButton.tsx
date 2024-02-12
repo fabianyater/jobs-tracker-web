@@ -56,13 +56,13 @@ const DropdownButton: React.FC<DropdownButtonProps> = ({ estados }) => {
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
-          className="lucide lucide-list-filter mr-2"
+          className="lucide lucide-list-filter sm:mr-2"
         >
           <path d="M3 6h18" />
           <path d="M7 12h10" />
           <path d="M10 18h4" />
         </svg>
-        Filtrar
+        <span className="hidden sm:inline">Filtrar</span>
       </Button>
       {isDropdownOpen && (
         <div className="absolute z-10 w-60 shadow-lg border border-gray-600 rounded-md p-4 bg-gray-700">
