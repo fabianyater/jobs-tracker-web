@@ -18,6 +18,7 @@ export type Postulacion = {
   fechaPostulacion: string;
   fechaActualizacion: string;
   comentarios: Comentario[];
+  descripcion: string;
 };
 
 export type PostulacionFormState = {

@@ -15,22 +15,28 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
   opciones,
   title,
 }) => {
+  const handleClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    e.stopPropagation();
+  };
+
   return (
-    <Select
-      value={value}
-      onChange={(e) => onChange(e.target.value)}
-      title={title}
-    >
-      {opciones.map((opcion) => (
-        <option
-          key={opcion.id}
-          style={{ color: opcion.color }}
-          value={opcion.estado}
-        >
-          {opcion.estado}
-        </option>
-      ))}
-    </Select>
+    <div onClick={handleClick}>
+      <Select
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        title={title}
+      >
+        {opciones.map((opcion) => (
+          <option
+            key={opcion.id}
+            style={{ color: opcion.color }}
+            value={opcion.estado}
+          >
+            {opcion.estado}
+          </option>
+        ))}
+      </Select>
+    </div>
   );
 };
 

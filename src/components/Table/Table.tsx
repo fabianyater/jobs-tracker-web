@@ -7,6 +7,7 @@ import {
   TableRow,
 } from "flowbite-react";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { usePostulacionContext } from "../../hooks/usePostulacionContext";
 import { Postulacion } from "../../types/types";
 import { formatearFecha } from "../../utils";
@@ -27,9 +28,11 @@ const CustomTable: React.FC = () => {
     totalPages,
     handlePageChange,
   } = usePostulacionContext();
+  const navigate = useNavigate();
 
   const handleOnClick = (postulacion: Postulacion) => {
     //TODO: Datos para ir al detalle de la postulación
+    navigate(`/postulacion/${postulacion.id}`);
     console.log(postulacionesFiltradas.find((f) => f.id === postulacion.id));
   };
 
@@ -64,9 +67,9 @@ const CustomTable: React.FC = () => {
                       opciones={estados}
                       title="Seleccionar estado"
                       value={postulacion.estado}
-                      onChange={(e) =>
-                        actualizarEstadoPostulacion(postulacion.id, e)
-                      }
+                      onChange={(e) => {
+                        actualizarEstadoPostulacion(postulacion.id, e);
+                      }}
                     />
                   </TableItem>
                   <TableItem>
