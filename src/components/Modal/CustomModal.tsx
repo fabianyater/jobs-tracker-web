@@ -1,6 +1,6 @@
 import { Button, Modal } from "flowbite-react";
 import React, { ReactNode } from "react";
-import { usePostulaciones } from "../../hooks/usePostulacion";
+import { usePostulacionContext } from "../../hooks/usePostulacionContext";
 
 export type ModalProps = {
   children: ReactNode;
@@ -15,7 +15,7 @@ const CustomModal: React.FC<ModalProps> = ({
   showFooter,
   title,
 }) => {
-  const { toggleFormVisible } = usePostulaciones();
+  const { toggleFormVisible } = usePostulacionContext();
 
   return (
     <>

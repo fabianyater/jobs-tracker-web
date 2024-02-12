@@ -3,11 +3,11 @@ import { ApplyForm } from "./components/ApplyForm";
 import { DropdownButton } from "./components/DropdownButton";
 import CustomModal from "./components/Modal/CustomModal";
 import { Table } from "./components/Table";
-import { usePostulaciones } from "./hooks/usePostulacion";
+import { usePostulacionContext } from "./hooks/usePostulacionContext";
 
 function App() {
   const { isFormVisible, toggleFormVisible, totalPostulaciones, estados } =
-    usePostulaciones();
+    usePostulacionContext();
 
   return (
     <div className="container mx-auto">

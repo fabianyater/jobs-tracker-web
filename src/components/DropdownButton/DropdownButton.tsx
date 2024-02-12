@@ -1,6 +1,6 @@
 import { Button } from "flowbite-react";
 import React, { useEffect, useRef, useState } from "react";
-import { usePostulaciones } from "../../hooks/usePostulacion";
+import { usePostulacionContext } from "../../hooks/usePostulacionContext";
 import { Estado } from "../../types/types";
 
 export type DropdownButtonProps = {
@@ -13,7 +13,7 @@ const DropdownButton: React.FC<DropdownButtonProps> = ({ estados }) => {
     handleCheckboxChange,
     filtrarPostulacionesPorEstado,
     clearFilter,
-  } = usePostulaciones();
+  } = usePostulacionContext();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
   const dropdownRef = useRef<HTMLDivElement | null>(null);

@@ -1,7 +1,7 @@
 import { Button, Label, TextInput } from "flowbite-react";
 import React, { useState } from "react";
-import { usePostulaciones } from "../../hooks/usePostulacion";
 import { PostulacionFormState } from "../../types/types";
+import { usePostulacionContext } from "../../hooks/usePostulacionContext";
 
 const ApplyForm: React.FC = () => {
   const [formState, setFormState] = useState<PostulacionFormState>({
@@ -11,7 +11,7 @@ const ApplyForm: React.FC = () => {
   });
 
   const { agregarPostulacion, toggleFormVisible, isLoading } =
-    usePostulaciones();
+    usePostulacionContext();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;

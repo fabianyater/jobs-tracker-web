@@ -7,7 +7,7 @@ import {
   TableRow,
 } from "flowbite-react";
 import React from "react";
-import { usePostulaciones } from "../../hooks/usePostulacion";
+import { usePostulacionContext } from "../../hooks/usePostulacionContext";
 import { Postulacion } from "../../types/types";
 import { formatearFecha } from "../../utils";
 import { Select } from "../Select";
@@ -15,7 +15,7 @@ import { TableItem } from "../TableItem";
 
 const CustomTable: React.FC = () => {
   const { postulacionesFiltradas, estados, actualizarEstadoPostulacion } =
-    usePostulaciones();
+    usePostulacionContext();
 
   const handleOnClick = (postulacion: Postulacion) => {
     //TODO: Datos para ir al detalle de la postulación
