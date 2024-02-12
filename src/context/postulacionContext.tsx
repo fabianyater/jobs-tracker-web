@@ -104,8 +104,6 @@ export const PostulacionProvider: React.FC<PostulacionProviderProps> = ({
     setIsLoading(true);
 
     try {
-      console.log(currentPage);
-      
       const response = await fetchPostulaciones(currentPage, itemsPerPage);
 
       if (response.data && response.data.data) {
@@ -216,7 +214,6 @@ export const PostulacionProvider: React.FC<PostulacionProviderProps> = ({
   useEffect(() => {
     cargarPostulaciones();
   }, [currentPage]); // Dependencia: currentPage
-  
 
   return (
     <PostulacionContext.Provider
