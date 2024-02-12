@@ -10,7 +10,7 @@ function App() {
     usePostulacionContext();
 
   return (
-    <div className="container mx-auto">
+    <div className="container mx-auto p-4">
       <header>
         <h1 className="my-8 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-6xl text-center">
           <span className="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">
@@ -30,10 +30,10 @@ function App() {
         )}
       </header>
       <main>
-        <div className="flex justify-between">
-          <div className="flex items-baseline g-4">
+        <div className="flex justify-between flex-col sm:flex-row">
+          <div className="flex items-baseline g-4 justify-between">
             <h2
-              className="text-4xl font-bold dark:text-white my-4   
+              className="text-2xl sm:text-4xl font-bold dark:text-white my-4   
             underline underline-offset-3 decoration-8 decoration-blue-400 dark:decoration-blue-600 text-white"
             >
               Mis postulaciones
