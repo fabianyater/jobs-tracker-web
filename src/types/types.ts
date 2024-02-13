@@ -3,11 +3,12 @@ export enum EstadoPostulacion {
   Vista = "Vista",
   EnProceso = "En proceso",
   SinRespuesta = "Sin respuesta",
+  Rechazada = "Rechazada"
 }
 
 export type Comentario = {
   comentario: string;
-}
+};
 
 export type Postulacion = {
   id: number;
@@ -30,10 +31,16 @@ export type PostulacionFormState = {
 export type ComentarioFormState = {
   postulacionId: number;
   comentario: string;
-}
+};
 
 export type Estado = {
   id: number;
   estado: string;
   color: string;
-}
+};
+
+export type Timeline = {
+  estado: string;
+  fechaActualizacion: string;
+  color: string
+};

@@ -12,12 +12,14 @@ import {
   addPostulacion,
   deletePostulacion,
   fetchPostulaciones,
+  fetchPostulacionesTimeline,
 } from "../api/postulacionesService";
 import {
   ComentarioFormState,
   Estado,
   Postulacion,
   PostulacionFormState,
+  Timeline,
 } from "../types/types";
 
 type PostulacionContextType = {
@@ -27,6 +29,7 @@ type PostulacionContextType = {
   agregarPostulacion: (postulacion: PostulacionFormState) => void;
   agregarComentario: (comentario: ComentarioFormState) => void;
   cargarPostulaciones: () => void;
+  cargarTimeline: (postulacionId: number) => void;
   eliminarPostulacion: (postulacionId: number) => void;
   actualizarEstadoPostulacion: (id: number, estado: string) => void;
   cargarEstados: () => void;
@@ -44,6 +47,7 @@ type PostulacionContextType = {
   prevPage: () => void;
   handlePageChange: (page: number) => void;
   totalPages: number;
+  timeline: Timeline[];
 };
 
 export const PostulacionContext = createContext<
@@ -61,6 +65,8 @@ export const PostulacionProvider: React.FC<PostulacionProviderProps> = ({
   const [postulacionesFiltradas, setPostulacionesFiltradas] = useState<
     Postulacion[]
   >([]);
+  const [timeline, setTimeline] = useState<Timeline[]>([]);
+
   const [estados, setEstados] = useState<Estado[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isFormVisible, setIsFormVisible] = useState<boolean>(false);
@@ -116,6 +122,18 @@ export const PostulacionProvider: React.FC<PostulacionProviderProps> = ({
       console.error("Hubo un error al obtener las postulaciones", error);
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const cargarTimeline = async (postulacionId: number) => {
+    try {
+      const response = await fetchPostulacionesTimeline(postulacionId);
+
+      if (response.data && response.data.data) {
+        setTimeline(response.data.data);
+      }
+    } catch (error) {
+      console.error("Hubo un error al obtener las postulaciones", error);
     }
   };
 
@@ -223,6 +241,7 @@ export const PostulacionProvider: React.FC<PostulacionProviderProps> = ({
         estados,
         agregarPostulacion,
         cargarPostulaciones,
+        cargarTimeline,
         eliminarPostulacion,
         actualizarEstadoPostulacion,
         agregarComentario,
@@ -241,6 +260,7 @@ export const PostulacionProvider: React.FC<PostulacionProviderProps> = ({
         totalPages,
         prevPage,
         nextPage,
+        timeline
       }}
     >
       {children}

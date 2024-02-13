@@ -80,22 +80,21 @@ export const exportToCsv = (exportObj: Postulacion[]) => {
   downloadAnchorNode.remove();
 };
 
-
 export function obtenerNombreSitio(url: string): string {
   // Extrae el hostname de la URL usando la clase URL
   const hostname = new URL(url).hostname;
 
   // Mapea hostnames conocidos a los nombres de los sitios
   const mapeoSitios: { [key: string]: string } = {
-    'www.linkedin.com': 'LinkedIn',
-    'www.glassdoor.com': 'Glassdoor',
-    'www.indeed.com': 'Indeed',
-    'www.magneto365.com': 'Magneto'
+    "www.linkedin.com": "LinkedIn",
+    "www.glassdoor.com": "Glassdoor",
+    "www.indeed.com": "Indeed",
+    "www.magneto365.com": "Magneto",
   };
 
   // Intenta obtener el nombre del sitio del mapeo
   const nombreSitio = mapeoSitios[hostname];
 
   // Si el sitio está en el mapeo, retorna el nombre mapeado; si no, extrae la parte relevante del hostname como fallback
-  return nombreSitio || hostname.split('.')[1] || hostname;
+  return nombreSitio || hostname.split(".")[1] || hostname;
 }
