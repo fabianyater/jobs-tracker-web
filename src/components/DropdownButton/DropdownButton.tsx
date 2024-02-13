@@ -45,7 +45,7 @@ const DropdownButton: React.FC<DropdownButtonProps> = ({ estados }) => {
 
   return (
     <div className="relative inline-block text-left" ref={dropdownRef}>
-      <Button color="blue" className="my-6 flex gap-2" onClick={toggleDropdown}>
+      <Button title="Filtrar por estados" color="blue" className="my-6 flex gap-2" onClick={toggleDropdown}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"
