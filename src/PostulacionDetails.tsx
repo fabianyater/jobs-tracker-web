@@ -144,7 +144,7 @@ const PostulacionDetalle = () => {
               <Timeline postulacionId={postulacion.id} />
             </div>
           </section>
-          <section className="w-full mt-8 flex sm:flex-row flex-col justify-between gap-5" style={{width: postulacion.descripcion ? '100%' : '50%'}}>
+          <section className="w-full mt-8 flex sm:flex-row flex-col justify-between gap-5" style={{width: postulacion.descripcion === null ? '100%' : '50%'}}>
             <div className="sm:w-full">
               <span className="text-gray-400 text-md mb-8">Comentarios</span>
               <ul className="max-w-md space-y-1 text-white list-disc list-inside">
