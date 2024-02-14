@@ -1,4 +1,5 @@
 import {
+  Spinner,
   Table,
   TableBody,
   TableCell,
@@ -27,6 +28,7 @@ const CustomTable: React.FC = () => {
     prevPage,
     totalPages,
     handlePageChange,
+    isLoading,
   } = usePostulacionContext();
   const navigate = useNavigate();
 
@@ -48,7 +50,13 @@ const CustomTable: React.FC = () => {
             <TableHeadCell className="text-white">Enlace</TableHeadCell>
           </TableHead>
           <TableBody>
-            {postulacionesFiltradas.length > 0 ? (
+            {isLoading ? (
+              <TableRow>
+                <TableCell colSpan={5} className="text-center">
+                  <Spinner color="info" size="md" />
+                </TableCell>
+              </TableRow>
+            ) : postulacionesFiltradas.length > 0 ? (
               postulacionesFiltradas.map((postulacion) => (
                 <TableRow
                   key={postulacion.id}
@@ -72,6 +80,7 @@ const CustomTable: React.FC = () => {
                   </TableItem>
                   <TableItem>
                     <a
+                      title="Abrir enlace"
                       href={postulacion.url}
                       target="_blank"
                       rel="noopener noreferrer"

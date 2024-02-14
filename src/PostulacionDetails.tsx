@@ -1,23 +1,40 @@
 import DOMPurify from "dompurify";
 import { Badge, Button } from "flowbite-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { Comment } from "./components/Comment";
 import { Timeline } from "./components/Timeline";
+import { useComentarioContext } from "./hooks/useComentarioContext";
 import { usePostulacionContext } from "./hooks/usePostulacionContext";
 import { EstadoPostulacion } from "./types/types";
-import { obtenerNombreSitio } from "./utils";
+import { formatearFecha, obtenerNombreSitio } from "./utils";
 
 const PostulacionDetalle = () => {
+  const { postulaciones } = usePostulacionContext();
+  const { comentarios, cargarComentarios } = useComentarioContext();
   const [isDescriptionExpanded, setIsDescriptionExpanded] =
     useState<boolean>(false);
+
   const navigate = useNavigate();
   const { id } = useParams();
 
-  const { postulaciones } = usePostulacionContext();
   const postulacion = postulaciones.filter((p) => p.id === Number(id))[0];
-  const nombrePlataforma = obtenerNombreSitio(postulacion.url);
-  const descripcionLimpia = DOMPurify.sanitize(postulacion.descripcion);
+  const {
+    id: postulacionId,
+    url,
+    descripcion,
+    estado,
+    tituloPuesto,
+    nombreEmpresa,
+    fechaPostulacion,
+  } = postulacion;
+
+  const nombrePlataforma = obtenerNombreSitio(url);
+  const descripcionLimpia = DOMPurify.sanitize(descripcion);
+
+  useEffect(() => {
+    cargarComentarios(postulacionId);
+  }, [cargarComentarios, postulacionId]);
 
   if (id === undefined || !/^\d+$/.test(id)) {
     return <Navigate to="/not-found" replace />;
@@ -68,35 +85,34 @@ const PostulacionDetalle = () => {
           <path d="M20 18v-2a4 4 0 0 0-4-4H4" />
         </svg>
       </Button>
-      <div className="flex justify-between flex-col sm:flex-row gap-20">
+      <div className="flex justify-between flex-col sm:flex-row sm:gap-20">
         <div className="flex w-full flex-col">
-          <section className="w-full mt-8 flex sm:flex-row flex-col justify-between gap-5">
-            <div>
+          <section className="w-full mt-8 flex flex-col justify-between gap-5">
+            <div className="flex flex-col gap-2">
               <Badge
-              color="dark"
-                className="w-max my-2"
+                color="dark"
+                className="w-max"
                 style={{
-                  backgroundColor: obtenerColorEstado(postulacion.estado),
+                  backgroundColor: obtenerColorEstado(estado),
                 }}
                 size="sm"
-                title={postulacion.estado}
+                title={estado}
               >
-                {postulacion.estado}
+                {estado}
               </Badge>
               <h1 className="text-4xl text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">
-                {postulacion.tituloPuesto}
+                {tituloPuesto}
               </h1>
-              <h2 className="text-2xl text-white">
-                {postulacion.nombreEmpresa}
-              </h2>
+              <h2 className="text-2xl text-white">{nombreEmpresa}</h2>
               <span className="text-white text-sm">
-                Solicitado el {postulacion.fechaPostulacion}
+                Solicitado el {fechaPostulacion}
               </span>
               <Button
                 color="blue"
-                className="mt-4 w-max"
-                href={postulacion.url}
+                className="w-max"
+                href={url}
                 target="_blank"
+                title="Ver vacante"
               >
                 {nombrePlataforma === "LinkedIn" ? (
                   <svg
@@ -136,33 +152,36 @@ const PostulacionDetalle = () => {
               </Button>
             </div>
           </section>
-          <section className="w-full mt-8 flex sm:flex-row flex-col justify-between gap-5">
+          <section className="w-full mt-8 flex flex-col justify-between gap-5">
             <div>
               <span className="text-gray-400 text-md mb-8">
                 Actualizaciones
               </span>
-              <Timeline postulacionId={postulacion.id} />
+              <Timeline postulacionId={postulacionId} />
             </div>
           </section>
-          <section className="w-full mt-8 flex sm:flex-row flex-col justify-between gap-5" style={{width: postulacion.descripcion === null ? '100%' : '50%'}}>
-            <div className="sm:w-full">
+          <section className="w-full mt-8 flex flex-col justify-between gap-5">
+            <div>
               <span className="text-gray-400 text-md mb-8">Comentarios</span>
-              <ul className="max-w-md space-y-1 text-white list-disc list-inside">
-                {postulacion.comentarios.length > 0 ? (
-                  postulacion.comentarios.map(({ comentario }, index) => (
-                    <li key={index}>{comentario}</li>
-                  ))
-                ) : (
-                  <span className="text-2xl text-blue-400">
-                    No hay comentarios
-                  </span>
-                )}
-              </ul>
-              <Comment postulacionId={postulacion.id} />
+              {comentarios.length !== 0 && (
+                <ul className="mt-2 flex flex-col gap-2 max-w-xl space-y-1 text-white list-inside list-none">
+                  {comentarios.map(
+                    ({ comentario, fechaPublicacion }, index) => (
+                      <li key={index} className="flex flex-col">
+                        <p className="text-white">{comentario}</p>
+                        <span className="text-xs text-gray-400">
+                          {formatearFecha(fechaPublicacion)}
+                        </span>
+                      </li>
+                    )
+                  )}
+                </ul>
+              )}
+              <Comment postulacionId={postulacionId} />
             </div>
           </section>
         </div>
-        {postulacion.descripcion && (
+        {descripcion && (
           <div className=" w-full mt-8 relative">
             <span className="text-gray-400 text-md mb-8">Descripción</span>
             <div
@@ -174,49 +193,49 @@ const PostulacionDetalle = () => {
                 transition: "max-height 0.5s ease-in-out",
               }}
             ></div>
-            <div
-              className={`absolute  w-full flex items-center justify-center ${
-                !isDescriptionExpanded
-                  ? "bg-gradient-to-t from-gray-900 to-[#1A1B2E00] bottom-[63%]"
-                  : "bg-[#1A1B2E00]"
-              } transition-all duration-500 ease-in-out`}
-            >
+            <div className="absolute w-full flex items-center justify-center transition-all duration-500 ease-in-out">
               <Button
                 color="transparent"
                 onClick={toggleDescription}
-                className="text-white"
+                className="text-white flex flex-col"
                 title={isDescriptionExpanded ? "Leer menos" : "Leer más"}
               >
                 {isDescriptionExpanded ? (
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="lucide lucide-chevron-up"
-                  >
-                    <path d="m18 15-6-6-6 6" />
-                  </svg>
+                  <div className="flex items-center gap-1">
+                    Ver menos
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="lucide lucide-chevron-up"
+                    >
+                      <path d="m18 15-6-6-6 6" />
+                    </svg>
+                  </div>
                 ) : (
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="lucide lucide-chevron-down"
-                  >
-                    <path d="m6 9 6 6 6-6" />
-                  </svg>
+                  <div className="flex items-center gap-1">
+                    Ver más
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="lucide lucide-chevron-down"
+                    >
+                      <path d="m6 9 6 6 6-6" />
+                    </svg>
+                  </div>
                 )}
               </Button>
             </div>

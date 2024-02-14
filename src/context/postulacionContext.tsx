@@ -260,7 +260,7 @@ export const PostulacionProvider: React.FC<PostulacionProviderProps> = ({
         totalPages,
         prevPage,
         nextPage,
-        timeline
+        timeline,
       }}
     >
       {children}

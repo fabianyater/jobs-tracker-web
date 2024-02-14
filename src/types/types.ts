@@ -3,11 +3,13 @@ export enum EstadoPostulacion {
   Vista = "Vista",
   EnProceso = "En proceso",
   SinRespuesta = "Sin respuesta",
-  Rechazada = "Rechazada"
+  Rechazada = "Rechazada",
+  Entrevista = "Entrevista"
 }
 
 export type Comentario = {
   comentario: string;
+  fechaPublicacion: string;
 };
 
 export type Postulacion = {
@@ -18,7 +20,6 @@ export type Postulacion = {
   estado: EstadoPostulacion;
   fechaPostulacion: string;
   fechaActualizacion: string;
-  comentarios: Comentario[];
   descripcion: string;
 };
 

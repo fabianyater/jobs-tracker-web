@@ -8,6 +8,9 @@ dependencies:
   '@types/dompurify':
     specifier: ^3.0.5
     version: 3.0.5
+  add-to-calendar-button-react:
+    specifier: ^2.5.9
+    version: 2.5.9(react-dom@18.2.0)(react@18.2.0)
   axios:
     specifier: ^1.6.7
     version: 1.6.7
@@ -1538,6 +1541,25 @@ packages:
     resolution: {integrity: sha512-Y9rRfJG5jcKOE0CLisYbojUjIrIEE7AGMzA/Sm4BslANhbS+cDMpgBdcPT91oJ7OuJ9hYJBx59RjbhxVnrF8Xg==}
     engines: {node: '>=0.4.0'}
     hasBin: true
+
+  /add-to-calendar-button-react@2.5.9(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-AMQBCDqKxeoFFfvokQR8XCyjRLClsljFxqPLqkxeGKklvTZ5UOAYkdD2mhyiGSaK29xRHOTa47qaih1NEkQb1A==}
+    engines: {node: '>=16.18.1', npm: '>=8.19.2'}
+    peerDependencies:
+      react: '>=18.0.0'
+      react-dom: '>=18.0.0'
+    dependencies:
+      add-to-calendar-button: 2.5.10
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    dev: false
+
+  /add-to-calendar-button@2.5.10:
+    resolution: {integrity: sha512-CVRt2vCM3Ps8CTO7sbB+NwX8gdoaQer+IG5w0kfm/45eKtW+PSRlzZm38BevbCuLIhzpokFCGjhoGsVHCPQnpQ==}
+    engines: {node: '>=18.17.0', npm: '>=9.6.7'}
+    dependencies:
+      timezones-ical-library: 1.8.0
+    dev: false
 
   /ajv@6.12.6:
     resolution: {integrity: sha512-j3fVLgvTo527anyYyJOGTYJbG+vnnQYvE0m5mmkc1TK+nxAppkCLMIL0aZ4dblVCNoGShhm+kzE4ZUykBoMg4g==}
@@ -4984,6 +5006,11 @@ packages:
     dependencies:
       readable-stream: 2.3.8
       xtend: 4.0.2
+    dev: false
+
+  /timezones-ical-library@1.8.0:
+    resolution: {integrity: sha512-+ztqRJ6OnynNzj6cI+1JAJx+duI7KugHmEb7WTcIKoHKKp3ANkyLr5aonlYsIgBQFlVecvmcVLp5ejo2/hAdvQ==}
+    engines: {node: '>=14.20.0'}
     dev: false
 
   /to-object-path@0.3.0:
