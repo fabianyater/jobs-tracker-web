@@ -109,7 +109,7 @@ const PostulacionDetalle = () => {
               </h1>
               <h2 className="text-2xl text-white">{nombreEmpresa}</h2>
               <span className="text-white text-sm">
-                Solicitado el {fechaPostulacion}
+                Solicitado el {formatearFecha(fechaPostulacion)}
               </span>
               <Button
                 color="blue"
