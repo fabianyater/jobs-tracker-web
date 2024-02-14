@@ -85,6 +85,7 @@ const CustomTable: React.FC = () => {
                       target="_blank"
                       rel="noopener noreferrer"
                       className="font-medium text-blue-600 dark:text-white hover:underline"
+                      onClick={(e) => e.stopPropagation()}
                     >
                       Ver vacante
                     </a>

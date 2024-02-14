@@ -3,37 +3,13 @@ import { Postulacion } from "./types/types";
 export function formatearFecha(fechaOriginal: string) {
   const fecha = new Date(fechaOriginal);
 
-  // Obtenemos el día
-  const dia = fecha.getDate();
-
-  // Convertimos el número del mes a su nombre correspondiente
-  const meses = [
-    "Enero",
-    "Febrero",
-    "Marzo",
-    "Abril",
-    "Mayo",
-    "Junio",
-    "Julio",
-    "Agosto",
-    "Septiembre",
-    "Octubre",
-    "Noviembre",
-    "Diciembre",
-  ];
-  const mes = meses[fecha.getMonth()];
-
-  // Convertimos de formato 24 a 12 horas, determinamos AM o PM y si es "a la" o "a las"
-  let horas = fecha.getHours();
-  const ampm = horas >= 12 ? "pm" : "am";
-  horas = horas % 12;
-  horas = horas ? horas : 12; // El 0 se convierte en 12
-  const minutos = fecha.getMinutes().toString().padStart(2, "0");
-
-  // Determinar si se usa "a la" o "a las"
-  const preposicion = horas === 1 ? "a la" : "a las";
-
-  return `${dia} de ${mes} ${preposicion} ${horas}:${minutos} ${ampm}`;
+  return fecha.toLocaleString("es-ES", {
+    day: "numeric",
+    month: "long",
+    hour: "2-digit",
+    minute: "2-digit",
+    hourCycle: "h12",
+  });
 }
 
 export const exportToJson = (exportObj: Postulacion[]) => {
@@ -80,10 +56,8 @@ export const exportToCsv = (exportObj: Postulacion[]) => {
 };
 
 export function obtenerNombreSitio(url: string): string {
-  // Extrae el hostname de la URL usando la clase URL
   const hostname = new URL(url).hostname;
 
-  // Mapea hostnames conocidos a los nombres de los sitios
   const mapeoSitios: { [key: string]: string } = {
     "www.linkedin.com": "LinkedIn",
     "www.glassdoor.com": "Glassdoor",
@@ -91,10 +65,8 @@ export function obtenerNombreSitio(url: string): string {
     "www.magneto365.com": "Magneto",
   };
 
-  // Intenta obtener el nombre del sitio del mapeo
   const nombreSitio = mapeoSitios[hostname];
 
-  // Si el sitio está en el mapeo, retorna el nombre mapeado; si no, extrae la parte relevante del hostname como fallback
   return nombreSitio || hostname.split(".")[1] || hostname;
 }
 
