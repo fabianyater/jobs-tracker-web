@@ -1,4 +1,4 @@
-import { Button } from "flowbite-react";
+import { Button, Spinner } from "flowbite-react";
 import { ApplyForm } from "./components/ApplyForm";
 import { DropdownButton } from "./components/DropdownButton";
 import CustomModal from "./components/Modal/CustomModal";
@@ -13,6 +13,7 @@ function App() {
     postulaciones,
     totalItems,
     estados,
+    isLoading,
   } = usePostulacionContext();
 
   return (
@@ -46,7 +47,7 @@ function App() {
             </h2>
             <span className="bg-blue-100 text-blue-800 text-2xl font-semibold me-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ms-2">
               {" "}
-              {totalItems}
+              {isLoading ? <Spinner size="sm" color="success" /> : totalItems}
             </span>
           </div>
           <div className="flex gap-4">
