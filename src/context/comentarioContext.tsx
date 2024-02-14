@@ -39,7 +39,7 @@ export const ComentarioProvider: React.FC<ComentarioProviderProps> = ({
     } finally {
       setIsLoading(false);
     }
-  }, []); // Dependencias vacías o incluye aquellas de las que realmente depende
+  }, []);
 
   const agregarComentario = async (comentarioData: ComentarioFormState) => {
     try {

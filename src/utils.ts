@@ -9,6 +9,7 @@ export function formatearFecha(fechaOriginal: string) {
     hour: "2-digit",
     minute: "2-digit",
     hourCycle: "h12",
+    timeZoneName: "short"
   });
 }
 
