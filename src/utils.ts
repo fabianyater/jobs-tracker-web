@@ -49,27 +49,26 @@ export const exportToJson = (exportObj: Postulacion[]) => {
 };
 
 export const exportToCsv = (exportObj: Postulacion[]) => {
-  // Crear la cabecera del CSV con las claves de tu objeto. Ajusta según la estructura de Postulacion.
   const csvHeader = Object.keys(exportObj[0]).join(",") + "\n";
 
-  // Convertir cada objeto del array a una fila CSV.
   const csvRows = exportObj
     .map((row) => {
       return Object.values(row)
-        .map((value) =>
-          // Si el valor contiene comas, saltos de línea o comillas dobles, enciérralo entre comillas dobles
-          // y duplica las comillas dobles dentro de este.
-          typeof value === "string" && value.includes(",")
-            ? `"${value.replace(/"/g, '""')}"`
-            : value.toString()
-        )
+        .map((value) => {
+          if (value === null || value === undefined) {
+            return "";
+          } else if (typeof value === "string" && value.includes(",")) {
+            return `"${value.replace(/"/g, '""')}"`;
+          } else {
+            return value.toString();
+          }
+        })
         .join(",");
     })
     .join("\n");
 
   const csvString = csvHeader + csvRows;
 
-  // Crear un enlace y descargar el CSV
   const dataStr =
     "data:text/csv;charset=utf-8," + encodeURIComponent(csvString);
   const downloadAnchorNode = document.createElement("a");
