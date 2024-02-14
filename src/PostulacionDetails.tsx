@@ -1,5 +1,5 @@
 import DOMPurify from "dompurify";
-import { Badge, Button } from "flowbite-react";
+import { Badge, Button, Spinner } from "flowbite-react";
 import { useEffect, useState } from "react";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { Comment } from "./components/Comment";
@@ -11,7 +11,7 @@ import { formatearFecha, obtenerNombreSitio } from "./utils";
 
 const PostulacionDetalle = () => {
   const { postulaciones } = usePostulacionContext();
-  const { comentarios, cargarComentarios } = useComentarioContext();
+  const { comentarios, cargarComentarios, isLoading } = useComentarioContext();
   const [isDescriptionExpanded, setIsDescriptionExpanded] =
     useState<boolean>(false);
 
@@ -163,19 +163,23 @@ const PostulacionDetalle = () => {
           <section className="w-full mt-8 flex flex-col justify-between gap-5">
             <div>
               <span className="text-gray-400 text-md mb-8">Comentarios</span>
-              {comentarios.length !== 0 && (
-                <ul className="mt-2 flex flex-col gap-2 max-w-xl space-y-1 text-white list-inside list-none">
-                  {comentarios.map(
-                    ({ comentario, fechaPublicacion }, index) => (
-                      <li key={index} className="flex flex-col">
-                        <p className="text-white">{comentario}</p>
-                        <span className="text-xs text-gray-400">
-                          {formatearFecha(fechaPublicacion)}
-                        </span>
-                      </li>
-                    )
-                  )}
-                </ul>
+              {isLoading ? (
+                <Spinner />
+              ) : (
+                comentarios.length !== 0 && (
+                  <ul className="mt-2 flex flex-col gap-2 max-w-xl space-y-1 text-white list-inside list-none">
+                    {comentarios.map(
+                      ({ comentario, fechaPublicacion }, index) => (
+                        <li key={index} className="flex flex-col">
+                          <p className="text-white">{comentario}</p>
+                          <span className="text-xs text-gray-400">
+                            {formatearFecha(fechaPublicacion)}
+                          </span>
+                        </li>
+                      )
+                    )}
+                  </ul>
+                )
               )}
               <Comment postulacionId={postulacionId} />
             </div>
