@@ -6,7 +6,6 @@ import { Comment } from "./components/Comment";
 import { Timeline } from "./components/Timeline";
 import { useComentarioContext } from "./hooks/useComentarioContext";
 import { usePostulacionContext } from "./hooks/usePostulacionContext";
-import { EstadoPostulacion } from "./types/types";
 import {
   detectarYReemplazarURLs,
   formatearFecha,
@@ -52,18 +51,6 @@ const PostulacionDetalle = () => {
     setIsDescriptionExpanded(!isDescriptionExpanded);
   };
 
-  const mapeoEstadoColor: { [key in string]: string } = {
-    [EstadoPostulacion.Enviada.toLowerCase()]: "#1c64f2",
-    [EstadoPostulacion.Vista.toLowerCase()]: "#FFFF99",
-    [EstadoPostulacion.EnProceso.toLowerCase()]: "#90EE90",
-    [EstadoPostulacion.SinRespuesta.toLowerCase()]: "#D3D3D3",
-    [EstadoPostulacion.Rechazada.toLowerCase()]: "#FF6347",
-  };
-
-  const obtenerColorEstado = (estado: EstadoPostulacion): string => {
-    return mapeoEstadoColor[estado.toLowerCase()];
-  };
-
   return (
     <div className="container mx-auto my-24 px-4">
       <Button
@@ -93,15 +80,7 @@ const PostulacionDetalle = () => {
         <div className="flex w-full flex-col">
           <section className="w-full mt-8 flex flex-col justify-between gap-5">
             <div className="flex flex-col gap-2">
-              <Badge
-                color="dark"
-                className="w-max"
-                style={{
-                  backgroundColor: obtenerColorEstado(estado),
-                }}
-                size="sm"
-                title={estado}
-              >
+              <Badge color="dark" className="w-max" size="sm" title={estado}>
                 {estado}
               </Badge>
               <h1 className="text-4xl text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">
