@@ -7,7 +7,11 @@ import { Timeline } from "./components/Timeline";
 import { useComentarioContext } from "./hooks/useComentarioContext";
 import { usePostulacionContext } from "./hooks/usePostulacionContext";
 import { EstadoPostulacion } from "./types/types";
-import { formatearFecha, obtenerNombreSitio } from "./utils";
+import {
+  detectarYReemplazarURLs,
+  formatearFecha,
+  obtenerNombreSitio,
+} from "./utils";
 
 const PostulacionDetalle = () => {
   const { postulaciones } = usePostulacionContext();
@@ -171,7 +175,12 @@ const PostulacionDetalle = () => {
                     {comentarios.map(
                       ({ comentario, fechaPublicacion }, index) => (
                         <li key={index} className="flex flex-col">
-                          <p className="text-white">{comentario}</p>
+                          <p
+                            className="text-white break-words"
+                            dangerouslySetInnerHTML={{
+                              __html: detectarYReemplazarURLs(comentario),
+                            }}
+                          ></p>
                           <span className="text-xs text-gray-400">
                             {formatearFecha(fechaPublicacion)}
                           </span>

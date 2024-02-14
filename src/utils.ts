@@ -98,3 +98,13 @@ export function obtenerNombreSitio(url: string): string {
   // Si el sitio está en el mapeo, retorna el nombre mapeado; si no, extrae la parte relevante del hostname como fallback
   return nombreSitio || hostname.split(".")[1] || hostname;
 }
+
+export function detectarYReemplazarURLs(texto: string) {
+  const regexUrl =
+    /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#/%?=~_|!:,.;]*[-A-Z0-9+&@#/%=~_|])/gi;
+  return texto.replace(
+    regexUrl,
+    (url) =>
+      `<a href="${url}" target="_blank" class="font-medium text-blue-400 dark:text-blue-500 underline">${url}</a>`
+  );
+}
