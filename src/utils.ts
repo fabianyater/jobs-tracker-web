@@ -1,4 +1,4 @@
-import { Postulacion } from "./types/types";
+import { EstadoPostulacion, Postulacion } from "./types/types";
 
 export function formatearFecha(fechaOriginal: string) {
   const fecha = new Date(fechaOriginal);
@@ -9,7 +9,7 @@ export function formatearFecha(fechaOriginal: string) {
     hour: "2-digit",
     minute: "2-digit",
     hourCycle: "h12",
-    timeZoneName: "short"
+    
   });
 }
 
@@ -80,3 +80,15 @@ export function detectarYReemplazarURLs(texto: string) {
       `<a href="${url}" target="_blank" class="font-medium text-blue-400 dark:text-blue-500 underline">${url}</a>`
   );
 }
+
+const mapeoEstadoColor: { [key in string]: string } = {
+  [EstadoPostulacion.Enviada.toLowerCase()]: "#1c64f2",
+  [EstadoPostulacion.Vista.toLowerCase()]: "#FFFF99",
+  [EstadoPostulacion.EnProceso.toLowerCase()]: "#90EE90",
+  [EstadoPostulacion.SinRespuesta.toLowerCase()]: "#D3D3D3",
+  [EstadoPostulacion.Rechazada.toLowerCase()]: "#FF6347",
+};
+
+export const obtenerColorEstado = (estado: EstadoPostulacion): string => {
+  return mapeoEstadoColor[estado.toLowerCase()];
+};
