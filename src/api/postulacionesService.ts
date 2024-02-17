@@ -1,8 +1,8 @@
 import { PostulacionFormState } from "../types/types";
 import axiosInstance from "./axionClient";
 
-export const fetchPostulaciones = (page: number, items: number) => {
-  return axiosInstance.get(`postulaciones?page=${page}&items=${items}`);
+export const fetchPostulaciones = (page: number, items: number, estado: string[]) => {
+  return axiosInstance.get(`postulaciones?page=${page}&items=${items}&estado=${estado}`);
 };
 
 export const fetchPostulacionesTimeline = (id: number) => {
