@@ -1,10 +1,4 @@
-import {
-  ReactNode,
-  createContext,
-  useCallback,
-  useEffect,
-  useState,
-} from "react";
+import { ReactNode, createContext, useEffect, useState } from "react";
 import { addComentario } from "../api/comentariosServices";
 import { fetchEstados } from "../api/estadoService";
 import {
@@ -24,7 +18,6 @@ import {
 
 type PostulacionContextType = {
   postulaciones: Postulacion[];
-  postulacionesFiltradas: Postulacion[];
   estados: Estado[];
   agregarPostulacion: (postulacion: PostulacionFormState) => void;
   agregarComentario: (comentario: ComentarioFormState) => void;
@@ -38,7 +31,6 @@ type PostulacionContextType = {
   toggleFormVisible: () => void;
   estadosSeleccionados: string[];
   handleCheckboxChange: (estado: string) => void;
-  filtrarPostulacionesPorEstado: () => void;
   clearFilter: () => void;
   currentPage: number;
   itemsPerPage: number;
@@ -62,9 +54,7 @@ export const PostulacionProvider: React.FC<PostulacionProviderProps> = ({
   children,
 }) => {
   const [postulaciones, setPostulaciones] = useState<Postulacion[]>([]);
-  const [postulacionesFiltradas, setPostulacionesFiltradas] = useState<
-    Postulacion[]
-  >([]);
+
   const [timeline, setTimeline] = useState<Timeline[]>([]);
 
   const [estados, setEstados] = useState<Estado[]>([]);
@@ -110,7 +100,11 @@ export const PostulacionProvider: React.FC<PostulacionProviderProps> = ({
     setIsLoading(true);
 
     try {
-      const response = await fetchPostulaciones(currentPage, itemsPerPage);
+      const response = await fetchPostulaciones(
+        currentPage,
+        itemsPerPage,
+        estadosSeleccionados
+      );
 
       if (response.data && response.data.data) {
         setPostulaciones(response.data.data.postulaciones);
@@ -208,26 +202,10 @@ export const PostulacionProvider: React.FC<PostulacionProviderProps> = ({
     }
   };
 
-  const filtrarPostulacionesPorEstado = useCallback(() => {
-    if (estadosSeleccionados.length === 0) {
-      return setPostulacionesFiltradas(postulaciones);
-    } else {
-      const filtradas = postulaciones.filter((postulacion) =>
-        estadosSeleccionados.includes(postulacion.estado)
-      );
-
-      return setPostulacionesFiltradas(filtradas);
-    }
-  }, [estadosSeleccionados, postulaciones]);
-
   useEffect(() => {
     cargarPostulaciones();
     cargarEstados();
   }, []);
-
-  useEffect(() => {
-    filtrarPostulacionesPorEstado();
-  }, [postulaciones]);
 
   useEffect(() => {
     cargarPostulaciones();
@@ -237,7 +215,6 @@ export const PostulacionProvider: React.FC<PostulacionProviderProps> = ({
     <PostulacionContext.Provider
       value={{
         postulaciones,
-        postulacionesFiltradas,
         estados,
         agregarPostulacion,
         cargarPostulaciones,
@@ -251,7 +228,6 @@ export const PostulacionProvider: React.FC<PostulacionProviderProps> = ({
         toggleFormVisible,
         estadosSeleccionados,
         handleCheckboxChange,
-        filtrarPostulacionesPorEstado,
         clearFilter,
         currentPage,
         itemsPerPage,
