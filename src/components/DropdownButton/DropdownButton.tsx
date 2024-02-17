@@ -11,8 +11,8 @@ const DropdownButton: React.FC<DropdownButtonProps> = ({ estados }) => {
   const {
     estadosSeleccionados,
     handleCheckboxChange,
-    filtrarPostulacionesPorEstado,
     clearFilter,
+    cargarPostulaciones,
   } = usePostulacionContext();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
@@ -45,7 +45,12 @@ const DropdownButton: React.FC<DropdownButtonProps> = ({ estados }) => {
 
   return (
     <div className="relative inline-block text-left" ref={dropdownRef}>
-      <Button title="Filtrar por estados" color="blue" className="my-6 flex gap-2" onClick={toggleDropdown}>
+      <Button
+        title="Filtrar por estados"
+        color="blue"
+        className="my-6 flex gap-2"
+        onClick={toggleDropdown}
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"
@@ -115,7 +120,7 @@ const DropdownButton: React.FC<DropdownButtonProps> = ({ estados }) => {
             <Button
               color="blue"
               title="Filtrar por estados"
-              onClick={() => filtrarPostulacionesPorEstado()}
+              onClick={() => cargarPostulaciones()}
               className="w-full mt-2"
             >
               Filtrar
