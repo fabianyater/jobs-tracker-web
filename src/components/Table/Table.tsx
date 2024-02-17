@@ -18,7 +18,7 @@ import { TablePagination } from "../TablePagination";
 
 const CustomTable: React.FC = () => {
   const {
-    postulacionesFiltradas,
+    postulaciones,
     estados,
     actualizarEstadoPostulacion,
     totalItems,
@@ -56,8 +56,8 @@ const CustomTable: React.FC = () => {
                   <Spinner color="info" size="md" />
                 </TableCell>
               </TableRow>
-            ) : postulacionesFiltradas.length > 0 ? (
-              postulacionesFiltradas.map((postulacion) => (
+            ) : postulaciones.length > 0 ? (
+              postulaciones.map((postulacion) => (
                 <TableRow
                   key={postulacion.id}
                   className="bg-white dark:border-gray-700 dark:bg-gray-800 cursor-pointer"
