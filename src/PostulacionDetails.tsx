@@ -71,8 +71,8 @@ const PostulacionDetalle = () => {
   const descripcionLimpia = DOMPurify.sanitize(descripcion);
 
   useEffect(() => {
-    cargarComentarios(postulacionId);
-  }, [cargarComentarios, postulacionId]);
+    cargarComentarios(Number(id));
+  }, [cargarComentarios, id]);
 
   useEffect(() => {
     cargarPostulacionDetalle(Number(id));
@@ -178,7 +178,7 @@ const PostulacionDetalle = () => {
                 <span className="text-gray-400 text-md mb-8">
                   Actualizaciones
                 </span>
-                <Timeline postulacionId={postulacionId} />
+                <Timeline postulacionId={Number(id)} />
               </div>
             </section>
             <section className="w-full mt-8 flex flex-col justify-between gap-5">
