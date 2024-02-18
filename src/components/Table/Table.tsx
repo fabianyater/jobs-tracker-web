@@ -53,7 +53,7 @@ const CustomTable: React.FC = () => {
           <TableBody>
             {isLoading ? (
               <TableRow>
-                <TableCell colSpan={5} className="text-center">
+                <TableCell colSpan={6} className="text-center">
                   <Spinner color="info" size="md" />
                 </TableCell>
               </TableRow>
@@ -96,7 +96,7 @@ const CustomTable: React.FC = () => {
               ))
             ) : (
               <TableRow className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                <TableCell colSpan={5} className="text-center">
+                <TableCell colSpan={6} className="text-center">
                   No hay postulaciones disponibles
                 </TableCell>
               </TableRow>
