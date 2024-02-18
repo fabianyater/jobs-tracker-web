@@ -19,6 +19,8 @@ const Timeline: React.FC<TimelineProps> = ({ postulacionId }) => {
   const [timeline, setTimeline] = useState<Timeline[]>([]);
 
   const cargarTimeline = async (postulacionId: number) => {
+    console.log("fetching");
+    
     try {
       const response = await fetchPostulacionesTimeline(postulacionId);
 
@@ -31,6 +33,8 @@ const Timeline: React.FC<TimelineProps> = ({ postulacionId }) => {
   };
 
   useEffect(() => {
+    console.log("effect");
+    
     cargarTimeline(postulacionId);
   }, [postulacionId]);
 
