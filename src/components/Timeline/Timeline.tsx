@@ -1,6 +1,6 @@
-import { useEffect } from "react";
-import { usePostulacionContext } from "../../hooks/usePostulacionContext";
-import { EstadoPostulacion } from "../../types/types";
+import { useEffect, useState } from "react";
+import { fetchPostulacionesTimeline } from "../../api/postulacionesService";
+import { EstadoPostulacion, Timeline } from "../../types/types";
 import { formatearFecha } from "../../utils";
 import {
   SvgEnProceso,
@@ -16,7 +16,23 @@ type TimelineProps = {
 };
 
 const Timeline: React.FC<TimelineProps> = ({ postulacionId }) => {
-  const { timeline, cargarTimeline } = usePostulacionContext();
+  const [timeline, setTimeline] = useState<Timeline[]>([]);
+
+  const cargarTimeline = async (postulacionId: number) => {
+    try {
+      const response = await fetchPostulacionesTimeline(postulacionId);
+
+      if (response.data && response.data.data) {
+        setTimeline(response.data.data);
+      }
+    } catch (error) {
+      console.error("Hubo un error al obtener las postulaciones", error);
+    }
+  };
+
+  useEffect(() => {
+    cargarTimeline(postulacionId);
+  }, [postulacionId]);
 
   const getSvgForEstado = (
     estado: EstadoPostulacion,
@@ -39,10 +55,6 @@ const Timeline: React.FC<TimelineProps> = ({ postulacionId }) => {
         return <div />;
     }
   };
-
-  useEffect(() => {
-    cargarTimeline(postulacionId);
-  }, []);
 
   return (
     <ol className="relative border-s border-blue-900 dark mt-2 ml-3">
