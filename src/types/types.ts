@@ -16,6 +16,7 @@ export type Postulacion = {
   id: number;
   nombreEmpresa: string;
   tituloPuesto: string;
+  plataforma: string;
   url: string;
   estado: EstadoPostulacion;
   fechaPostulacion: string;

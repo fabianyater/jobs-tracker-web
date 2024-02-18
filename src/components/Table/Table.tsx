@@ -43,6 +43,7 @@ const CustomTable: React.FC = () => {
           <TableHead>
             <TableHeadCell className="text-white">Puesto</TableHeadCell>
             <TableHeadCell className="text-white">Empresa</TableHeadCell>
+            <TableHeadCell className="text-white">Plataforma</TableHeadCell>
             <TableHeadCell className="text-white">
               Fecha de actualización
             </TableHeadCell>
@@ -65,6 +66,7 @@ const CustomTable: React.FC = () => {
                 >
                   <TableItem>{postulacion.tituloPuesto}</TableItem>
                   <TableItem>{postulacion.nombreEmpresa}</TableItem>
+                  <TableItem>{postulacion.plataforma}</TableItem>
                   <TableItem>
                     {formatearFecha(postulacion.fechaActualizacion)}
                   </TableItem>
