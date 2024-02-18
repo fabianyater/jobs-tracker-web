@@ -10,7 +10,6 @@ export function formatearFecha(fechaOriginal: string) {
     minute: "2-digit",
     second: "2-digit",
     hourCycle: "h12",
-    
   });
 }
 
@@ -57,19 +56,14 @@ export const exportToCsv = (exportObj: Postulacion[]) => {
   downloadAnchorNode.remove();
 };
 
-export function obtenerNombreSitio(url: string): string {
-  const hostname = new URL(url).hostname;
-
+export function mapearNombresPlataforma(platform: string): string {
   const mapeoSitios: { [key: string]: string } = {
-    "www.linkedin.com": "LinkedIn",
-    "www.glassdoor.com": "Glassdoor",
-    "www.indeed.com": "Indeed",
-    "www.magneto365.com": "Magneto",
+    Linkedin: "LinkedIn",
   };
 
-  const nombreSitio = mapeoSitios[hostname];
+  const nombreSitio = mapeoSitios[platform];
 
-  return nombreSitio || hostname.split(".")[1] || hostname;
+  return nombreSitio;
 }
 
 export function detectarYReemplazarURLs(texto: string) {
