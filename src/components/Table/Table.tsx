@@ -7,7 +7,7 @@ import {
   TableHeadCell,
   TableRow,
 } from "flowbite-react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { usePostulacionContext } from "../../hooks/usePostulacionContext";
 import { Postulacion } from "../../types/types";
@@ -17,6 +17,11 @@ import { TableItem } from "../TableItem";
 import { TablePagination } from "../TablePagination";
 
 const CustomTable: React.FC = () => {
+  const [selectedRow, setSelectedRow] = useState<number | null>(
+    localStorage.getItem("selectedRow")
+      ? Number(localStorage.getItem("selectedRow"))
+      : null
+  );
   const {
     postulaciones,
     estados,
@@ -34,7 +39,15 @@ const CustomTable: React.FC = () => {
 
   const handleOnClick = (postulacion: Postulacion) => {
     navigate(`/postulacion/${postulacion.id}`);
+    localStorage.setItem("selectedRow", postulacion.id.toString());
   };
+
+  useEffect(() => {
+    const savedId = localStorage.getItem("selectedRow");
+    if (savedId) {
+      setSelectedRow(Number(savedId));
+    }
+  }, []);
 
   return (
     <>
@@ -60,6 +73,10 @@ const CustomTable: React.FC = () => {
             ) : postulaciones.length > 0 ? (
               postulaciones.map((postulacion) => (
                 <TableRow
+                  style={{
+                    border:
+                      selectedRow === postulacion.id ? "solid 1px #22d3ee" : "",
+                  }}
                   key={postulacion.id}
                   className="bg-white dark:border-gray-700 dark:bg-gray-800 cursor-pointer"
                   onClick={() => handleOnClick(postulacion)}
