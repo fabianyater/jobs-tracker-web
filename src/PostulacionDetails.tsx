@@ -8,6 +8,7 @@ import { Timeline } from "./components/Timeline";
 import { useComentarioContext } from "./hooks/useComentarioContext";
 import { EstadoPostulacion, Postulacion } from "./types/types";
 import {
+  calcularDiferenciaFecha,
   detectarYReemplazarURLs,
   formatearFecha,
   mapearNombresPlataforma,
@@ -126,7 +127,8 @@ const PostulacionDetalle = () => {
                 </h1>
                 <h2 className="text-2xl text-white">{nombreEmpresa}</h2>
                 <span className="text-white text-sm">
-                  Solicitado el {formatearFecha(fechaPostulacion)}
+                  Solicitado el {formatearFecha(fechaPostulacion)} &#40;
+                  {calcularDiferenciaFecha(fechaPostulacion)}&#41;
                 </span>
                 <Button
                   color="blue"
@@ -190,19 +192,22 @@ const PostulacionDetalle = () => {
                   comentarios.length !== 0 && (
                     <ul className="mt-2 flex flex-col gap-2 max-w-xl space-y-1 text-white list-inside list-none">
                       {comentarios.map(
-                        ({ comentario, fechaPublicacion }, index) => (
-                          <li key={index} className="flex flex-col">
-                            <p
-                              className="text-white break-words"
-                              dangerouslySetInnerHTML={{
-                                __html: detectarYReemplazarURLs(comentario),
-                              }}
-                            ></p>
-                            <span className="text-xs text-gray-400">
-                              {formatearFecha(fechaPublicacion)}
-                            </span>
-                          </li>
-                        )
+                        ({ comentario, fechaPublicacion }, index) => {
+                          return (
+                            <li key={index} className="flex flex-col">
+                              <p
+                                className="text-white break-words"
+                                dangerouslySetInnerHTML={{
+                                  __html: detectarYReemplazarURLs(comentario),
+                                }}
+                              ></p>
+                              <span className="text-xs text-gray-400">
+                                {formatearFecha(fechaPublicacion)} &#40;
+                                {calcularDiferenciaFecha(fechaPublicacion)}&#41;
+                              </span>
+                            </li>
+                          );
+                        }
                       )}
                     </ul>
                   )
