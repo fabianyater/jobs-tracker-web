@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { fetchPostulacionesTimeline } from "../../api/postulacionesService";
 import { EstadoPostulacion, Timeline } from "../../types/types";
-import { formatearFecha } from "../../utils";
+import { calcularDiferenciaFecha, formatearFecha } from "../../utils";
 import {
   SvgEnProceso,
   SvgEntrevista,
@@ -69,7 +69,7 @@ const Timeline: React.FC<TimelineProps> = ({ postulacionId }) => {
             {t.estado}
           </h3>
           <time className="block mb-2 text-sm font-normal leading-none text-[#4F7396]">
-            {formatearFecha(t.fechaActualizacion)}
+            {formatearFecha(t.fechaActualizacion)} {calcularDiferenciaFecha(t.fechaActualizacion)}
           </time>
         </li>
       ))}
